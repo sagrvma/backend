@@ -1,0 +1,2 @@
+Hello from modern async!
+New line added via modern async.
