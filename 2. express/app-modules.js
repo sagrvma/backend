@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
   res.send("Home Page");
 });
 
-app.post("/api/data", (req, res) => {
+app.get("/api/data", (req, res) => {
   res.json({
     message: "Data recieved",
     data: req.body,
