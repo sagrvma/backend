@@ -1,7 +1,8 @@
 //Promise: a JS object that represents the eventual completion or failure of an asynchronous operation.
 const delayFn = (time) => {
   return new Promise((resolve) => {
-    return setTimeout(resolve, time);
+    return setTimeout(resolve, time); //passing a reference of the resolve function as a callback to setTimeout,
+    //which will be called after time expires.
   });
 };
 
