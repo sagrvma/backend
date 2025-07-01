@@ -4,6 +4,21 @@ Document: a record composed of field-value pairs, similar to a JSON object.
 Collection: a group of documents, equivalent to tables in relational databases. Can contain various
 datatypes including numbers, strings, booleans, arrays and nested documents.
 
+Schema: A schema defines the structure and rules for our data. It's like an architestural blueprint.
+=> Defines a data structure - what fields our data will have
+=> Specifies data types
+=> Sets validation rules
+=> Defines default values - what happens when a field is not provided
+=> Declares methods and virtuals
+***Scehmas don't allow reading and writing data to mongoDB, they only define structure
+
+Model: A compiled version of a schema that provides us with an interface to interact with a specific collection in the database.
+=> Provides database operations - CRUD
+=> Connects to storage - ties the schema to a specific mongoDB collection
+=> Offers query methods - .find(), .save(), .updateOne() etc.
+=> Handles data validation - uses the schema rules when saving
+=> Manages database connections - knows where to store the data
+
 Mongoose: a nodeJS base Object Data Modeling (ODM) library for mongoDB. Creates a connection b/w mongoDB and the nodeJS runtime environment. Serves as a OOP JS library that provides a straightforward, schema-based solution to model application data.
 
 What Problem Does Mongoose Solve?
@@ -16,7 +31,6 @@ Mongoose provides several powerful features:
 4. Ability to model your data with custom interfaces
 5. Built-in type casting, validation, query building, business logic hooks, and more out of the box
 6. Schema enforcement and model validation to make data manipulation effortless
-
 */
 const mongoose = require("mongoose");
 
@@ -127,3 +141,9 @@ const runQueryExample = async () => {
 };
 
 runQueryExample();
+
+/*MVC Architecture (Model-View-Controller):
+1. Model - Handles data and business logic
+2. View  - Handles the user interface
+3. Controller- Handles the user input and coordinates between models and views
+*/
