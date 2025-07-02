@@ -4,20 +4,20 @@ const getAllBooks = async (req, res) => {
   try {
     const allBooks = await Book.find({});
     if (allBooks?.length > 0) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "All books fetched successfully.",
         data: allBooks,
       });
     } else {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "No books present in the collection!",
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong! Please try again.",
     });
@@ -30,13 +30,13 @@ const getSingleBookById = async (req, res) => {
     const foundBookByID = await Book.findById(bookID);
 
     if (!foundBookByID) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message:
           "No book found with the given ID! Please try again with another ID.",
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Book with the given ID found successfully",
         data: foundBookByID,
@@ -44,7 +44,7 @@ const getSingleBookById = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong! Please try again.",
     });
@@ -56,7 +56,7 @@ const addBook = async (req, res) => {
     const newBookFormData = req.body;
     const newlyCreatedBook = await Book.create(newBookFormData);
     if (newlyCreatedBook) {
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         message: "New book added successfully.",
         data: newlyCreatedBook,
@@ -64,27 +64,57 @@ const addBook = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong! Please try again.",
     });
   }
 };
 
-const updateBook = async (req, res) => {};
+const updateBook = async (req, res) => {
+  try {
+    const updatedFormData = req.body;
+    const bookID = req.params.id;
+
+    const updatedBook = await Book.findByIdAndUpdate(bookID, updatedFormData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedBook) {
+      return res.status(404).json({
+        success: false,
+        message:
+          "No book found with the given ID! Please try again with another ID.",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Book with the given ID updated successfully.",
+        data: updatedBook,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again.",
+    });
+  }
+};
 
 const deleteBook = async (req, res) => {
   try {
     const bookID = req.params.id;
     const deletedBook = await Book.findByIdAndDelete(bookID);
     if (!deletedBook) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message:
           "No book found with the given ID! Please try again with another ID.",
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Book with the given id deleted successfully.",
         data: deletedBook,
@@ -92,7 +122,7 @@ const deleteBook = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Something went wrong! Please try again.",
     });
