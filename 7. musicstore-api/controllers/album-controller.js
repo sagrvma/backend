@@ -24,7 +24,7 @@ const getAllAlbums = async (req, res) => {
   }
 };
 
-const getSingleAlbumById = async (req, res) => {
+const getSingleAlbumByID = async (req, res) => {
   try {
     const albumID = req.params.id;
     const albumFoundByID = await Album.findById(albumID);
@@ -68,13 +68,45 @@ const addAlbum = async (req, res) => {
   }
 };
 
-const updateAlbum = async () => {};
+const updateAlbum = async (req, res) => {
+  try {
+    const albumID = req.params.id;
+    const updatedAlbumFormData = req.body;
+    const updatedAlbum = await Album.findByIdAndUpdate(
+      albumID,
+      updatedAlbumFormData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!updatedAlbum) {
+      return res.status(404).json({
+        success: false,
+        message:
+          "No album found with the given id! Please try again with another id.",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Album with the given id updated successfully.",
+        data: updatedAlbum,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again.",
+    });
+  }
+};
 
 const deleteAlbum = async () => {};
 
 module.exports = {
   getAllAlbums,
-  getSingleAlbumById,
+  getSingleAlbumByID,
   addAlbum,
   updateAlbum,
   deleteAlbum,
