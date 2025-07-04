@@ -11,8 +11,8 @@ const albumRouter = express.Router();
 
 albumRouter.get("/get", getAllAlbums);
 albumRouter.get("/get/:id", getSingleAlbumById);
-albumRouter.post("/post", addAlbum);
-albumRouter.put("/put/:id", updateAlbum);
+albumRouter.post("/add", addAlbum);
+albumRouter.put("/update/:id", updateAlbum);
 albumRouter.delete("/delete/:id", deleteAlbum);
 
 module.exports = albumRouter;

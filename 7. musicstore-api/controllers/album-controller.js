@@ -1,6 +1,6 @@
 const Album = require("../models/album");
 
-const getAllAlbums = async () => {
+const getAllAlbums = async (req, res) => {
   try {
     const allAlbums = await Album.find({});
     if (allAlbums?.length == 0) {
@@ -24,9 +24,49 @@ const getAllAlbums = async () => {
   }
 };
 
-const getSingleAlbumById = async () => {};
+const getSingleAlbumById = async (req, res) => {
+  try {
+    const albumID = req.params.id;
+    const albumFoundByID = await Album.findById(albumID);
+    if (!albumFoundByID) {
+      return res.status(404).json({
+        success: false,
+        message:
+          "No album found with the given ID! Please try again with another ID.",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Album with the given id fetched successfully.",
+        data: albumFoundByID,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong!",
+    });
+  }
+};
 
-const addAlbum = async () => {};
+const addAlbum = async (req, res) => {
+  try {
+    const albumData = req.body;
+    const newAlbum = await Album.create(albumData);
+    return res.status(200).json({
+      success: true,
+      message: "New album added successfully.",
+      data: newAlbum,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again.",
+    });
+  }
+};
 
 const updateAlbum = async () => {};
 
