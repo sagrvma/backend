@@ -78,6 +78,7 @@ const loginUser = async (req, res) => {
 
     //Create User Token
     const accessToken = jwt.sign(
+      //Bearer token
       {
         userID: user._id,
         username: user.username,
