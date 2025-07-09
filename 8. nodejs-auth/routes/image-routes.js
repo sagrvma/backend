@@ -1,11 +1,19 @@
 const express = require("express");
 const authMiddleware = require("../middleware/auth-middleware");
-const isAdminUser = require("../middleware/admin-middleware");
+const adminMiddleware = require("../middleware/admin-middleware");
+const uploadMiddleware = require("../middleware/upload-middleware");
+const { uploadImageController } = require("../controllers/image-controller");
 
 const router = express.Router();
 
 //Upload the image
-route.post("/upload", authMiddleware, isAdminUser);
+router.post(
+  "/upload",
+  authMiddleware,
+  adminMiddleware,
+  uploadMiddleware.single("image"),
+  uploadImageController
+);
 
 //To get all the images
 

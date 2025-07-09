@@ -1,7 +1,8 @@
 const Image = require("../models/image");
 const { uploadToCloudinary } = require("../helper/cloudinary-helper");
+const fs = require("fs");
 
-const uploadImage = async (req, res) => {
+const uploadImageController = async (req, res) => {
   try {
     //Check if file is missing in req
     if (!req.file) {
@@ -12,16 +13,19 @@ const uploadImage = async (req, res) => {
     }
 
     //Upload to Cloudinary
-    const { url, publicID } = await uploadToCloudinary(req.file.path);
+    const { url, publicId } = await uploadToCloudinary(req.file.path);
 
-    //Store the image url and publicID along with uploading user's data in the database
+    //Store the image url and publicId along with uploading user's data in the database
     const newlyUploadedImage = new Image({
       url,
-      publicID,
+      publicId,
       uploadedBy: req.userInfo.userID,
     });
 
     await newlyUploadedImage.save();
+
+    //Delete the file from local storage
+    fs.unlinkSync(req.file.path);
 
     res.status(201).json({
       success: true,
@@ -38,5 +42,5 @@ const uploadImage = async (req, res) => {
 };
 
 module.exports = {
-  uploadImage,
+  uploadImageController,
 };

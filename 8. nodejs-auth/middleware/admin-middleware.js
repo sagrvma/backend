@@ -1,4 +1,4 @@
-const isAdminUser = (req, res, next) => {
+const adminMiddleware = (req, res, next) => {
   if (req.userInfo.role !== "admin") {
     return res.status(401).json({
       success: false,
@@ -8,4 +8,4 @@ const isAdminUser = (req, res, next) => {
   next();
 };
 
-module.exports = isAdminUser;
+module.exports = adminMiddleware;
