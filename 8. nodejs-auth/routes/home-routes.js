@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/welcome", authMiddleware, (req, res) => {
   const { userID, username, role } = req.userInfo;
-  res.json({
+  return res.json({
     message: "Welcome to the home page.",
     user: {
       _id: userID,

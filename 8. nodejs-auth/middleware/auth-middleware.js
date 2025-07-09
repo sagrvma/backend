@@ -11,7 +11,7 @@ const authMiddleware = (req, res, next) => {
     // console.log(token);
 
     if (!token) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Access Denied! No token provided. Please login to continue.",
       });
@@ -21,7 +21,7 @@ const authMiddleware = (req, res, next) => {
     req.userInfo = decodedTokenData;
     next();
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Access Denied! No token provided. Please login to continue.",
     });
