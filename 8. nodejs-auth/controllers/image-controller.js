@@ -19,7 +19,7 @@ const uploadImageController = async (req, res) => {
     const newlyUploadedImage = new Image({
       url,
       publicId,
-      uploadedBy: req.userInfo.userID,
+      uploadedBy: req.userInfo.userId,
     });
 
     await newlyUploadedImage.save();
