@@ -4,7 +4,7 @@ const getAllProducts = async (req, res) => {
   try {
     const allProducts = await Products.find({});
 
-    if (allProducts.length == 0) {
+    if (allProducts.length === 0) {
       return res.status(400).json({
         success: false,
         message: "No products found!",
@@ -57,7 +57,7 @@ const getFilteredProductsStats = async (req, res) => {
       },
     ]);
 
-    if (results.length == 0) {
+    if (results.length === 0) {
       return res.status(400).json({
         success: false,
         message: "No products found with the applied filters!",
@@ -67,6 +67,52 @@ const getFilteredProductsStats = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: `Stats of products grouped by category where price >= 100 and inStock=true`,
+      filteredProducts: results,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong! Please try again.",
+    });
+  }
+};
+
+const getProductAnalysis = async (req, res) => {
+  try {
+    const results = await Products.aggregate([
+      { $match: { category: "Electronics" } },
+      {
+        $group: {
+          _id: null,
+          totalPrice: { $sum: "$price" },
+          maxPrice: { $max: "$price" },
+          minPrice: { $min: "$price" },
+          avgPrice: { $avg: "$price" },
+        },
+      },
+      {
+        $project: {
+          _id: 0, //Excluded
+          totalRevenue: 1,
+          maxPrice: 1,
+          minPrice: 1,
+          // avgPrice: 1, //If we dont mention a field, it will not be included
+          priceRange: { $subtract: ["$maxPrice", "$minPrice"] },
+        },
+      },
+    ]);
+
+    if (results.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No product found with the given filter.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Found ${results.length} products with the given filter.`,
       filteredProducts: results,
     });
   } catch (error) {
@@ -100,6 +146,7 @@ const insertSampleProducts = async (req, res) => {
 module.exports = {
   getAllProducts,
   getFilteredProductsStats,
+  getProductAnalysis,
   insertSampleProducts,
 };
 
