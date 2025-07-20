@@ -25,7 +25,7 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-const getFilteredProducts = async (req, res) => {
+const getFilteredProductsStats = async (req, res) => {
   try {
     const results = await Products.aggregate([
       {
@@ -33,6 +33,17 @@ const getFilteredProducts = async (req, res) => {
           inStock: true,
           price: {
             $gte: 100,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$category",
+          avgPrice: {
+            $avg: "$price",
+          },
+          count: {
+            $sum: 1,
           },
         },
       },
@@ -47,7 +58,7 @@ const getFilteredProducts = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: `Found ${results.length} products with the applied filters.`,
+      message: `Stats of products grouped by category where price > 100 and inStock=true`,
       filteredProducts: results,
     });
   } catch (error) {
@@ -78,4 +89,8 @@ const insertSampleProducts = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts, getFilteredProducts, insertSampleProducts };
+module.exports = {
+  getAllProducts,
+  getFilteredProductsStats,
+  insertSampleProducts,
+};
