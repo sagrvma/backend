@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
     io.emit("userJoined", userName);
 
     //Send the updated list to all the clients
-    io.emit("userList", Array.from(users));
+    io.emit("usersList", Array.from(users));
   });
 
   //Handle incoming chat messages
