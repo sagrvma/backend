@@ -57,6 +57,10 @@
         addMessage(`${message.userName}: ${message.text}`);
       });
 
+      socket.on("userLeft", (user) => {
+        addMessage(`${user} has now left the chat.`);
+      });
+
       const addMessage = (input) => {
         const messageElement = document.createElement("div");
         messageElement.textContent = input;

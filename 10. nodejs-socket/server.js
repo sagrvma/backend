@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
   //Handle when a user joins the chat
   socket.on("join", (userName) => {
     users.add(userName);
+    socket.userName = userName;
 
     //Broadcast to all clients/users that a new user has joined
     io.emit("userJoined", userName);
@@ -48,6 +49,18 @@ io.on("connection", (socket) => {
     io.emit("chatMessage", message);
   });
   //Handle user disconnection
+  socket.on("disconnect", () => {
+    console.log("A user is disconnected.");
+
+    users.forEach((user) => {
+      if (user === socket.userName) {
+        users.delete(user);
+
+        io.emit("userLeft", user);
+        io.emit("usersList", Array.from(users));
+      }
+    });
+  });
 });
 
 const PORT = 3000;
