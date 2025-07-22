@@ -1,0 +1,38 @@
+const express = require("express");
+const http = require("http");
+const socketIO = require("socket.io");
+/*
+Socket.IO : Enables real time, event driven, bi-directional communication between the client and server.
+1. Real-time: Instant data exchange without page refreshes.
+2. Bi-directional: Both client and server can initiate communication.
+3. Event Driven: Uses custom events for communication.
+4. Fallback Support: Works even when WebSockets aren't available. 
+*/
+
+const app = express(); // Express initializes app to be a function handler that we can supply to a HTTP server.
+
+const server = http.createServer(app); //HTTP server wrapping Express
+
+//Initiate socket.io and attach this to the http server
+const io = socketIO(server); //socket.io attached to the http server
+
+app.use(express.static("public")); //Serve static files from the "public folder"
+
+/*What is this architecture?
+Express App -> HTTP Server -> Socket.IO
+1.Express (app) - Handles all the http requests (REST apis, static files).
+2. HTTP Server (server) - Provides the foundation for both HTTP and WebSocket protocols
+3. Socket.IO (io) - Adds real time bi-directional communication on top of HTTP server
+*/
+
+const users = new Set();
+
+io.on("connection", (socket) => {
+  console.log("A user is now connected.");
+
+  //Handle when a user joins the chat
+
+  //Handle incoming chat messages
+
+  //Handle user disconnection
+});
