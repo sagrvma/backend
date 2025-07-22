@@ -38,7 +38,23 @@
       });
 
       socket.on("usersList", (users) => {
-        usersList.innerHTML = users.map((user) => `<li>${user}</li>`).join(" ");
+        usersList.innerHTML = users.map((user) => `<li>${user}</li>`).join("");
+      });
+
+      //Handle form submission
+      messageForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const extractMessageText = messageInput.value.trim();
+
+        if (extractMessageText) {
+          socket.emit("chatMessage", { userName, text: extractMessageText });
+          messageInput.value = "";
+        }
+      });
+
+      //Listen for incoming chatMessage event from the server
+      socket.on("chatMessage", (message) => {
+        addMessage(`${message.userName}: ${message.text}`);
       });
 
       const addMessage = (input) => {

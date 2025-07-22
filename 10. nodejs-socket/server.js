@@ -42,7 +42,11 @@ io.on("connection", (socket) => {
   });
 
   //Handle incoming chat messages
+  socket.on("chatMessage", (message) => {
+    //Broadcast the recieved message to all connected users/clients
 
+    io.emit("chatMessage", message);
+  });
   //Handle user disconnection
 });
 
