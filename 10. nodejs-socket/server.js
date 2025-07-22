@@ -31,8 +31,25 @@ io.on("connection", (socket) => {
   console.log("A user is now connected.");
 
   //Handle when a user joins the chat
+  socket.on("join", (userName) => {
+    users.add(userName);
+
+    //Broadcast to all clients/users that a new user has joined
+    io.emit("userJoined", userName);
+
+    //Send the updated list to all the clients
+    io.emit("userList", Array.from(users));
+  });
 
   //Handle incoming chat messages
 
   //Handle user disconnection
+});
+
+const PORT = 3000;
+
+server.listen(PORT, () => {
+  console.log(
+    `Server is now running successfully on  http://localhost:${PORT}`
+  );
 });
