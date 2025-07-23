@@ -18,7 +18,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    products: [products!]!
+    products: [Product!]!
     product(id: ID!): Product
   }
 `;
