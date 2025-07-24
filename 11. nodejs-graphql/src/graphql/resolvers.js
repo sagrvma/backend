@@ -18,6 +18,16 @@ const resolvers = {
       products.push(newProduct);
       return newProduct;
     },
+    deleteProduct: (_, { id }) => {
+      const index = products.findIndex(
+        (item) => parseInt(item.id) === parseInt(id)
+      );
+      if (index === -1) {
+        return false;
+      }
+      products.splice(index, 1);
+      return true;
+    },
   },
 };
 

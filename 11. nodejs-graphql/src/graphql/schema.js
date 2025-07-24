@@ -29,6 +29,8 @@ const typeDefs = gql`
       price: Float!
       inStock: Boolean!
     ): Product
+
+    deleteProduct(id: ID!): Boolean
   }
 `;
 
