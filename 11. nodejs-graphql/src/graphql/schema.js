@@ -31,6 +31,14 @@ const typeDefs = gql`
     ): Product
 
     deleteProduct(id: ID!): Boolean
+
+    updateProduct(
+      id: ID!
+      title: String
+      category: String
+      price: Float
+      inStock: Boolean
+    ): Product
   }
 `;
 

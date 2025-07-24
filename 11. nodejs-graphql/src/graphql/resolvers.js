@@ -28,6 +28,23 @@ const resolvers = {
       products.splice(index, 1);
       return true;
     },
+    updateProduct: (_, { id, ...updates }) => {
+      const index = products.findIndex(
+        (item) => parseInt(item.id) === parseInt(id)
+      );
+      if (index == -1) {
+        return null;
+      }
+
+      const updatedProduct = {
+        ...products[index],
+        ...updates,
+      };
+
+      products[index] = updatedProduct;
+
+      return updatedProduct;
+    },
   },
 };
 
