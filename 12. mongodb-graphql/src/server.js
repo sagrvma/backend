@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const typeDefs = require("./graphql/schema");
@@ -10,7 +11,7 @@ const startServer = async () => {
   });
 
   const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: process.env.PORT },
   });
 
   console.log(`Server ready at: ${url}`);
