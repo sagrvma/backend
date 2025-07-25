@@ -10,8 +10,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    product: [Product!]!
-    products(id: ID!): Product
+    products: [Product!]!
+    product(id: ID!): Product
   }
 
   type Mutation {
