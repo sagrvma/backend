@@ -1,4 +1,5 @@
 require("dotenv").config();
+const connectToDB = require("../database/db");
 const { ApolloServer } = require("@apollo/server");
 const { startStandaloneServer } = require("@apollo/server/standalone");
 const typeDefs = require("./graphql/schema");
@@ -18,3 +19,4 @@ const startServer = async () => {
 };
 
 startServer();
+connectToDB();
