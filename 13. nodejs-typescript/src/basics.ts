@@ -56,6 +56,8 @@ const add = (a: number, b: number): number => {
   return a + b;
 };
 
-const greet = (name: string, greeting: string) => {
+const greet = (name: string, greeting?: string) => {
   return `${name} ${greeting}`;
 };
+
+console.log(greet("Sagar")); //Second field is optional, so can be omitted
